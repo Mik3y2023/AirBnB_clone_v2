@@ -320,4 +320,4 @@ $ python3 unittest -m tests/test_console.py
 
 ## Authors :black_nib:
 * **Christina Ty Adegbaju** <[Christina](https://github.com/christinaty)>
-* **Omigood Olusegun** <[Olusegun](https://github.com/segge)>
+* **Justus Lolwerikoi** <[Justus Lolwerikoi](https://github.com/devbojack)>
