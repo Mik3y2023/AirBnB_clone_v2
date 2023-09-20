@@ -32,3 +32,4 @@ class test_User(test_basemodel):
         """ """
         new = self.value()
         self.assertNotEqual(type(new.password), str)
+

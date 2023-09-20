@@ -18,3 +18,4 @@ class test_state(test_basemodel):
         """ More testing of state name"""
         new = self.value()
         self.assertNotEqual(type(new.name), str)
+

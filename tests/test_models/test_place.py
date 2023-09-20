@@ -68,3 +68,4 @@ class test_Place(test_basemodel):
         """ Tests the amenity id """
         new = self.value()
         self.assertEqual(type(new.amenity_ids), list)
+

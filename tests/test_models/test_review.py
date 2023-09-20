@@ -27,3 +27,4 @@ class test_review(test_basemodel):
         """ """
         new = self.value()
         self.assertNotEqual(type(new.text), str)
+
