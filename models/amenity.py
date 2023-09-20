@@ -1,16 +1,33 @@
 #!/usr/bin/python3
 """This is the amenity class"""
 from models.base_model import BaseModel, Base
+from os import getenv
+from sqlalchemy import Column, Table, String, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, String
-from models.place import place_amenity
+
+place_amenity = Table("place_amenity", Base.metadata,
+                      Column("place_id", String(60),
+                             ForeignKey("places.id"),
+                             primary_key=True, nullable=False),
+                      Column("amenity_id", String(60),
+                             ForeignKey("amenities.id"),
+                             primary_key=True, nullable=False))
 
 
 class Amenity(BaseModel, Base):
-    """This is the class for Amenity
+    """Represent an Amenity for a MySQL database.
+
     Attributes:
-        name: input name
+        name: The Amenity name
+        place_amenities (relationship): The Place - Amenity relationship.
+
     """
+
     __tablename__ = "amenities"
-    name = Column(String(128), nullable=False)
-    place_amenities = relationship("Place", secondary=place_amenity)
+
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        name = Column(String(128), nullable=False)
+        place_amenities = relationship('Place', secondary=place_amenity)
+    else:
+        name = ''
+
