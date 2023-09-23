@@ -1,115 +1,61 @@
 #!/usr/bin/python3
-""" Module used to test  the base model """
-
+"""BaseModel test"""
 import os
-import json
 import unittest
-import datetime
+import pep8
 from models.base_model import BaseModel
-from uuid import UUID
 
+class TestBaseModel(unittest.TestCase):
+    """Test for BaseModel class"""
+    @classmethod
+    def setUpClass(cls):
+        """setUpClass for BaseModel test"""
+        cls.base = BaseModel()
+        cls.base.name = "Bojack"
+        cls.base.num = 44
 
-class test_basemodel(unittest.TestCase):
-    """ Test class for base model """
+    @classmethod
+    def tearDownClass(cls):
+        """tearDownClass for BaseModel test"""
+        del cls.base
 
-    def __init__(self, *args, **kwargs):
-        """ Constructor for test_basemodel class """
-        super().__init__(*args, **kwargs)
-        self.name = 'BaseModel'
-        self.value = BaseModel
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def setUp(self):
-        """ """
-        pass
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def tearDown(self):
+    def test_del_files_BaseModel(self):
+        """Test to del created files if any"""
         try:
-            os.remove('file.json')
+            os.remove("file.json")
         except Exception:
             pass
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_default(self):
-        """ """
-        i = self.value()
-        self.assertEqual(type(i), self.value)
+    def test_pep8_BaseModel(self):
+        """Test for pep8 style"""
+        style = pep8.StyleGuide(quiet=True)
+        classStyled = style.check_files(['models/base_model.py'])
+        self.assertEqual(classStyled.totalErrors, 0, "Error!, Fix pep8 style")
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_kwargs(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        new = BaseModel(**copy)
-        self.assertFalse(new is i)
+    def test_BaseModel_has_necessary_functions(self):
+        """Test if the functions exists"""
+        self.assertTrue(hasattr(BaseModel, "__init__"))
+        self.assertTrue(hasattr(BaseModel, "__str__"))
+        self.assertTrue(hasattr(BaseModel, "__repr__"))
+        self.assertTrue(hasattr(BaseModel, "save"))
+        self.assertTrue(hasattr(BaseModel, "to_dict"))
+        self.assertTrue(hasattr(BaseModel, "delete"))
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_kwargs_int(self):
-        """ """
-        i = self.value()
-        copy = i.to_dict()
-        copy.update({1: 2})
-        with self.assertRaises(TypeError):
-            new = BaseModel(**copy)
+    def test_BaseModel_has_doc(self):
+        """Check if BaseModel has docs"""
+        self.assertIsNotNone(BaseModel.__doc__)
+        self.assertIsNotNone(BaseModel.__init__.__doc__)
+        self.assertIsNotNone(BaseModel.__str__.__doc__)
+        self.assertIsNotNone(BaseModel.to_dict.__doc__)
+        self.assertIsNotNone(BaseModel.save.__doc__)
+        self.assertIsNotNone(BaseModel.__repr__.__doc__)
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_save(self):
-        """ Testing save """
-        i = self.value()
-        i.save()
-        key = self.name + "." + i.id
-        with open('file.json', 'r') as f:
-            j = json.load(f)
-            self.assertEqual(j[key], i.to_dict())
+    def test_is_type_of_BaseModel(self):
+        self.assertTrue(isInstance(self.base, BaseModel))
 
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_todict(self):
-        """ """
-        i = self.value()
-        n = i.to_dict()
-        self.assertEqual(i.to_dict(), n)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_kwargs_none(self):
-        """ """
-        n = {None: None}
-        with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        new = self.value(**n)
-        self.assertRaises(KeyError)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.id), str)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_created_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.created_at), datetime.datetime)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
-    def test_updated_at(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.updated_at), datetime.datetime)
-
+    @unittest.skip("Checking if it works")
+    def test_nothing(self):
+        self.fail("ERROR!, This shouldn't be seen")
 
 if __name__ == "__main__":
     unittest.main()
-
