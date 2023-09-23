@@ -1,67 +1,72 @@
 #!/usr/bin/python3
-"""Test for City Class"""
+"""test for city"""
 import unittest
 import os
-import pep8
 from models.city import City
 from models.base_model import BaseModel
+import pep8
+
 
 class TestCity(unittest.TestCase):
-    """Test for the City class"""
-
+    """this will test the city class"""
     @classmethod
     def setUpClass(cls):
-        """setUpClass for City test class"""
+        """set up for test"""
         cls.city = City()
-        cls.city.name = "Nairobi City"
-        cls.city.state_id = "Nairobi"
+        cls.city.name = "LA"
+        cls.city.state_id = "CA"
 
     @classmethod
-    def tearDownClass(cls):
-        """Tears down created test class obj"""
+    def teardown(cls):
+        """at the end of the test this will tear it down"""
         del cls.city
 
-    def test_del_city_files(self):
-        """Test to del created city files if any"""
+    def tearDown(self):
+        """teardown"""
         try:
             os.remove("file.json")
         except Exception:
             pass
 
-    def test_pep8_style_for_City(self):
-        """Test for pep8 style"""
-        style = pep8.styleGuide(quiet=true)
-        classStyled = style.check_files(['models/city.py'])
-        self.assertEqual(classStyled.total_errors, 0,  "Error!, Fix pep8 style")
+    def test_pep8_City(self):
+        """Tests pep8 style"""
+        style = pep8.StyleGuide(quiet=True)
+        p = style.check_files(['models/city.py'])
+        self.assertEqual(p.total_errors, 0, "fix pep8")
 
-    def test_City_has_docs(self):
-        """Test for City docs"""
+    def test_checking_for_docstring_City(self):
+        """checking for docstrings"""
         self.assertIsNotNone(City.__doc__)
 
-    def test_City_has_attrs(self):
-        """Test for attributes in City"""
-        self.assertIn('id', self.city.__dict__)
-        self.assertIn('name', self.city.__dict__)
-        self.assertIn('state_id', self.city.__dict__)
-        self.assertIn('create_at', self.city.__dict__)
-        self.assertIn('updated_at', self.city.__dict__)
+    def test_attributes_City(self):
+        """chekcing if City have attributes"""
+        self.assertTrue('id' in self.city.__dict__)
+        self.assertTrue('created_at' in self.city.__dict__)
+        self.assertTrue('updated_at' in self.city.__dict__)
+        self.assertTrue('state_id' in self.city.__dict__)
+        self.assertTrue('name' in self.city.__dict__)
 
-    def test_is_City_subclass(self):
-        """Test City is BaseModel subsclass"""
-        self.assertTrue(issubclass(self.city.__class__, BaseModel), true)
+    def test_is_subclass_City(self):
+        """test if City is subclass of Basemodel"""
+        self.assertTrue(issubclass(self.city.__class__, BaseModel), True)
 
-    def test_attributes_types_in_City(self):
-        """Test attributes types in City"""
+    def test_attribute_types_City(self):
+        """test attribute type for City"""
         self.assertEqual(type(self.city.name), str)
         self.assertEqual(type(self.city.state_id), str)
 
-    @unittest.skipUnless(os.getenv("HBNB_TYPE_STORAGE') != 'db'"),
-                         "Error! Unknown File Storage")
-
-    def test_City_save(self):
-        """Test if save works"""
+    @unittest.skipIf(
+        os.getenv('HBNB_TYPE_STORAGE') == 'db',
+        "This test only work in Filestorage")
+    def test_save_City(self):
+        """test if the save works"""
         self.city.save()
-        self.assertNotEqual(self.city.create_at, self.city.updated_at)
+        self.assertNotEqual(self.city.created_at, self.city.updated_at)
+
+    def test_to_dict_City(self):
+        """test if dictionary works"""
+        self.assertEqual('to_dict' in dir(self.city), True)
+
 
 if __name__ == "__main__":
     unittest.main()
