@@ -39,4 +39,3 @@ class State(BaseModel, Base):
                     cities.append(city)
 
             return cities
-
