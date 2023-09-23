@@ -31,12 +31,12 @@ class TestHBNBCommand(unittest.TestCase):
         except IOError:
             pass
         del cls.HBNB
-        if type(models.storage) == DBStorage:
+        if (type(models.storage) == DBStorage):
             models.storage._DBStorage__session.close()
 
     def setUp(self):
         """Reset FileStorage objects dictionary."""
-        FileStorage._FileStorage__objects = {}
+        self.FileStorage._FileStorage__objects = {}
 
     def tearDown(self):
         """Delete any created file.json."""

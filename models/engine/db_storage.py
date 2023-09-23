@@ -15,21 +15,13 @@ all_classes = {"State", "City", "Amenity", "User", "Place", "Review"}
 
 
 class DBStorage:
-    """...
-
-    Attributes:
-        __engine: The SQLAlchemy engine
-        __session: The SQLAlchemy session
-
-    """
+    """DBSTORAGE"""
 
     __engine = None
     __session = None
 
     def __init__(self):
-        """Initialize a connection with MySQL
-        and create tables
-        """
+        """Initialize a connection with MySQL, create tables"""
 
         db_uri = "{0}+{1}://{2}:{3}@{4}:3306/{5}".format(
             'mysql', 'mysqldb', getenv('HBNB_MYSQL_USER'),
@@ -43,8 +35,7 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
-        """...
-        """
+        """ALL """
         entities = dict()
 
         if cls:
@@ -56,28 +47,22 @@ class DBStorage:
         return entities
 
     def new(self, obj):
-        """Add obj to the current database session.
-        """
+        """Add obj to the current database session"""
         if obj:
             self.__session.add(obj)
 
     def save(self):
-        """Commit all changes to the current database session.
-        """
-
+        """Commit all changes to the current database session"""
         self.__session.commit()
 
     def delete(self, obj=None):
-        """Delete obj from the current database session.
-        """
+        """Delete obj from the current database session"""
 
         if obj is not None:
             self.__session.delete(obj)
 
     def reload(self):
-        """Create all tables into database and initialize a new session.
-        """
-
+        """Create all tables into database and init new sesh"""
         Base.metadata.create_all(self.__engine)
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
@@ -85,8 +70,7 @@ class DBStorage:
         self.__session = Session()
 
     def get_data_from_table(self, cls, structure):
-        """Get the data from a MySQL Table
-        """
+        """Get the data from a MySQL Table"""
 
         if type(structure) is dict:
             query = self.__session.query(cls)
@@ -98,7 +82,5 @@ class DBStorage:
             return structure
 
     def close(self):
-        """Close the Session
-        """
+        """Close the Session"""
         self.__session.close()
-

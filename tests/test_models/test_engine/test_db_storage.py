@@ -69,9 +69,7 @@ class TestDBStorage(unittest.TestCase):
         self.assertIsNotNone(obj[key])
 
     def test_reload_dbtorage(self):
-        """
-        tests reload
-        """
+        """tests reload"""
         self.storage.save()
         Root = os.path.dirname(os.path.abspath("console.py"))
         path = os.path.join(Root, "file.json")
