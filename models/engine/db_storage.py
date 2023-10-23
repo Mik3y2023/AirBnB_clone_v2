@@ -13,12 +13,14 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 all_classes = {"State", "City", "Amenity", "User", "Place", "Review"}
 
-class Session:
+
+class Session():
     def __init__(self):
         self.is_open = True
 
     def close(self):
         self.is_open = False
+
 
 class DBStorage:
     """DBSTORAGE"""
@@ -28,7 +30,7 @@ class DBStorage:
 
     def __init__(self):
         """Initialize a connection with MySQL, create tables"""
-	self.__session = None
+        self.__session = None
 
         db_uri = "{0}+{1}://{2}:{3}@{4}:3306/{5}".format(
             'mysql', 'mysqldb', getenv('HBNB_MYSQL_USER'),
