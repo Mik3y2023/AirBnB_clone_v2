@@ -40,28 +40,28 @@ class State(BaseModel, Base):
 
             return cities
 
-    def __init__(self, state_id, name):
-        self.state_id = state_id
-        self.name = name
-        self.cities = []
+        def __init__(self, state_id, name):
+            self.state_id = state_id
+            self.name = name
+            self.cities = []
 
-    def link_city(self, city):
-        self.cities.append(city)
+        def link_city(self, city):
+            self.cities.append(city)
 
-    def unlink_city(self, city):
-        self.cities.remove(city)
+        def unlink_city(self, city):
+            self.cities.remove(city)
 
-    def get_city_by_name(self, city_name):
-        for city in self.cities:
-            if city.name == city_name:
-                return city
-        return None
+        def get_city_by_name(self, city_name):
+            for city in self.cities:
+                if city.name == city_name:
+                    return city
+            return None
 
-    def get_city_by_id(self, city_id):
-        for city in self.cities:
-            if city.city_id == city_id:
-                return city
-        return None
+        def get_city_by_id(self, city_id):
+            for city in self.cities:
+                if city.city_id == city_id:
+                    return city
+            return None
 
-    def cities(self):
-        return self.cities
+        def cities(self):
+            return self.cities
